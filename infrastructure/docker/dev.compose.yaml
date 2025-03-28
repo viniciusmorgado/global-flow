@@ -1,0 +1,34 @@
+services:
+  postgres:
+    container_name: global-flow-platform-database
+    image: postgres:17.4-bookworm
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    networks:
+      - global-flow
+    volumes:
+      - global-flow-data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    environment:
+      POSTGRES_DB: global-flow-platform-database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  global-flow-data:
+    name: global-flow-data
+
+networks:
+  global-flow:
+    name: global-flow
+    driver: bridge
+    external: false
