@@ -1,2 +1,2 @@
-# global-flow
+# Global Flow
 global-flow
