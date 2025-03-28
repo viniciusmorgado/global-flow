@@ -1,0 +1,12 @@
+[project]
+name = "global-flow-platform"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.1.7",
+    "django-admin>=2.0.2",
+    "django-extensions>=3.2.3",
+    "python-dotenv>=1.1.0",
+]
