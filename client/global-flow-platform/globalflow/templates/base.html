@@ -1,13 +1,81 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} Global Flow {% endblock %}</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <title>
+      {% block title %}
+        Global Flow
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+    <div class="navigation">
+      <ul>
+        <li class="list">
+          <a href="#">
+            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+            <span class="title">Inicio</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="#">
+            <span class="icon"><ion-icon name="business-outline"></ion-icon></span>
+            <span class="title">Empresas</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="swap-horizontal-outline"></ion-icon></span>
+            <span class="title">Processo de Troca</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+            <span class="title">Despachante</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
+            <span class="title">Cargo</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="receipt-outline"></ion-icon></span>
+            <span class="title">Regime Fiscal</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="storefront-outline"></ion-icon></span>
+            <span class="title">Tipo de Corretora</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="search-circle-outline"></ion-icon></span>
+            <span class="title">Radar</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="">
+            <span class="icon"><ion-icon name="shield-checkmark-outline"></ion-icon></span>
+            <span class="title">Seguradora</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
     {% block content %}
+
     {% endblock %}
-    {% comment %} The navbar came here {% endcomment %}
-</body>
+
+    <script type="module" src="{% static 'js/ionicons.esm.js' %}"></script>
+    <script nomodule src="{% static 'js/ionicons.js' %}"></script>
+  </body>
 </html>
