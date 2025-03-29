@@ -1,11 +1,14 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
+from globalflow.models import TodoItem, Sale
+from .utils import get_plot
 
-from globalflow.models import TodoItem
-
-# Create your views here.
 def index(request):
-    # return HttpResponse("Hello, World")
-    return render(request, "index.html")
+    qs = Sale.objects.all()
+    x = [x.item for x in qs]
+    y = [y.price for y in qs]
+    chart = get_plot(x, y)
+
+    return render(request, "index.html", {"chart": chart})
 
 def todos(request):
     items = TodoItem.objects.all()
