@@ -10,37 +10,33 @@ def index(request):
 
     return render(request, "index.html", {"chart": chart})
 
-def todos(request):
-    items = TodoItem.objects.all()
-    return render(request, "todos.html", {"todos": items})
-
 def business(request):
     context = {}
     return render(request, 'business.html', context)
 
-def radar(request):
+def exchange_process(request):
     context = {}
-    return render(request, 'radar.html', context)
+    return render(request, 'exchange_process.html', context)
 
-def broker_type(request):
+def dispatcher(request):
     context = {}
-    return render(request, 'broker_type.html', context)
+    return render(request, 'dispatcher.html', context)
+
+def role(request):
+    context = {}
+    return render(request, 'role.html', context)
 
 def tax_regime(request):
     context = {}
     return render(request, 'tax_regime.html', context)
 
-def cargo(request):
+def broker_type(request):
     context = {}
-    return render(request, 'cargo.html', context)
+    return render(request, 'broker_type.html', context)
 
-def broker(request):
+def radar(request):
     context = {}
-    return render(request, 'broker.html', context)
-
-def exchange(request):
-    context = {}
-    return render(request, 'exchange.html', context)
+    return render(request, 'radar.html', context)
 
 def insurance(request):
     context = {}
