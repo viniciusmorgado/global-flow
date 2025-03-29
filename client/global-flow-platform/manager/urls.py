@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
 from globalflow import urls as gf_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(gf_urls))
+    path('', include(gf_urls)),
+    path('', include('django.contrib.auth.urls')),
 ]

@@ -175,3 +175,9 @@ body {
 .toggle.active ion-icon.open {
     display: none;
 }
+
+/* _LOGIN_ */
+
+.login form p {
+    color: red;
+}

@@ -1,0 +1,12 @@
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<dev class='login'>
+<form method="post">
+    {% csrf_token %}
+    <p>Don't have an account? Create one <a href="/sign-up">Here</a></p>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
+</dev>
+{% endblock %}
