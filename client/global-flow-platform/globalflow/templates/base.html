@@ -17,7 +17,7 @@
         <li class="list active">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:index' %}">
+          <a href="{% url 'globalflow:index' %}" data-spa-link>
             <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
             <span class="title">Inicio</span>
           </a>
@@ -25,7 +25,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:business' %}">
+          <a href="{% url 'globalflow:business' %}" data-spa-link>
             <span class="icon"><ion-icon name="business-outline"></ion-icon></span>
             <span class="title">Empresas</span>
           </a>
@@ -33,7 +33,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:exchange_process' %}">
+          <a href="{% url 'globalflow:exchange_process' %}" data-spa-link>
             <span class="icon"><ion-icon name="swap-horizontal-outline"></ion-icon></span>
             <span class="title">Processo de Troca</span>
           </a>
@@ -41,7 +41,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:dispatcher' %}">
+          <a href="{% url 'globalflow:dispatcher' %}" data-spa-link>
             <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
             <span class="title">Despachante</span>
           </a>
@@ -49,7 +49,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:role' %}">
+          <a href="{% url 'globalflow:role' %}" data-spa-link>
             <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
             <span class="title">Cargo</span>
           </a>
@@ -57,7 +57,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:tax_regime' %}">
+          <a href="{% url 'globalflow:tax_regime' %}" data-spa-link>
             <span class="icon"><ion-icon name="receipt-outline"></ion-icon></span>
             <span class="title">Regime Fiscal</span>
           </a>
@@ -65,7 +65,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:broker_type' %}">
+          <a href="{% url 'globalflow:broker_type' %}" data-spa-link>
             <span class="icon"><ion-icon name="storefront-outline"></ion-icon></span>
             <span class="title">Tipo de Corretora</span>
           </a>
@@ -73,7 +73,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:radar' %}">
+          <a href="{% url 'globalflow:radar' %}" data-spa-link>
             <span class="icon"><ion-icon name="search-circle-outline"></ion-icon></span>
             <span class="title">Radar</span>
           </a>
@@ -81,7 +81,7 @@
         <li class="list">
           <b></b>
           <b></b>
-          <a href="{% url 'globalflow:insurance' %}">
+          <a href="{% url 'globalflow:insurance' %}" data-spa-link>
             <span class="icon"><ion-icon name="shield-checkmark-outline"></ion-icon></span>
             <span class="title">Seguradora</span>
           </a>
@@ -94,66 +94,123 @@
     </div>
 
     <div class="content">
-    {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock %}
     </div>
 
     <script type="module" src="{% static 'js/ionicons.esm.js' %}"></script>
     <script nomodule src="{% static 'js/ionicons.js' %}"></script>
     <script>
-      let menuToggle = document.querySelector('.toggle');
-      let navigation = document.querySelector('.navigation');
-      let content = document.querySelector('.content');
-      let list = document.querySelectorAll('.list');
+      let menuToggle = document.querySelector('.toggle')
+      let navigation = document.querySelector('.navigation')
+      let content = document.querySelector('.content')
+      let list = document.querySelectorAll('.list')
       
-      document.addEventListener('DOMContentLoaded', function() {
-        const isMenuOpen = localStorage.getItem('menuOpen') === 'true';
-        
+      document.addEventListener('DOMContentLoaded', function () {
+        const isMenuOpen = localStorage.getItem('menuOpen') === 'true'
+      
         if (isMenuOpen) {
-          menuToggle.classList.add('active');
-          navigation.classList.add('active');
-          content.classList.add('active');
+          menuToggle.classList.add('active')
+          navigation.classList.add('active')
+          content.classList.add('active')
         } else {
-          menuToggle.classList.remove('active');
-          navigation.classList.remove('active');
-          content.classList.remove('active');
+          menuToggle.classList.remove('active')
+          navigation.classList.remove('active')
+          content.classList.remove('active')
         }
-
-        const currentPath = window.location.pathname;
-        
-        list.forEach(item => {
-          item.classList.remove('active');
-        });
-        
-        let activeItemFound = false;
-        list.forEach(item => {
-          const link = item.querySelector('a');
+      
+        updateActiveMenuItem()
+        setupSpaNavigation()
+      })
+      
+      function updateActiveMenuItem() {
+        const currentPath = window.location.pathname
+      
+        list.forEach((item) => {
+          item.classList.remove('active')
+        })
+      
+        let activeItemFound = false
+        list.forEach((item) => {
+          const link = item.querySelector('a')
           if (link && link.getAttribute('href')) {
-            const href = link.getAttribute('href');
-            if ((currentPath === '/' && href.endsWith('index')) || 
-                (currentPath !== '/' && currentPath.includes(href.split('/').filter(p => p).pop()))) {
-              item.classList.add('active');
-              activeItemFound = true;
+            const href = link.getAttribute('href')
+            if (
+              (currentPath === '/' && href.endsWith('index')) ||
+              (currentPath !== '/' &&
+                currentPath.includes(
+                  href
+                    .split('/')
+                    .filter((p) => p)
+                    .pop()
+                ))
+            ) {
+              item.classList.add('active')
+              activeItemFound = true
             }
           }
-        });
-        
-        if (!activeItemFound) {
-          list[0].classList.add('active');
-        }
-      });
+        })
       
-      menuToggle.onclick = function () {
-        menuToggle.classList.toggle('active');
-        navigation.classList.toggle('active');
-        content.classList.toggle('active');
-        
-        localStorage.setItem('menuOpen', navigation.classList.contains('active'));
+        if (!activeItemFound) {
+          list[0].classList.add('active')
+        }
       }
       
-      for (let i = 0; i < list.length; i++) {
-        list[i].onclick = function () {
-
-        }
+      function setupSpaNavigation() {
+        document.querySelectorAll('[data-spa-link]').forEach((link) => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault()
+            const href = this.getAttribute('href')
+            loadContent(href)
+      
+            list.forEach((item) => item.classList.remove('active'))
+            this.closest('.list').classList.add('active')
+      
+            history.pushState({}, '', href)
+          })
+        })
+      
+        window.addEventListener('popstate', function () {
+          loadContent(window.location.pathname)
+          updateActiveMenuItem()
+        })
+      }
+      
+      function loadContent(url) {
+        fetch(url)
+          .then((response) => response.text())
+          .then((html) => {
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(html, 'text/html')
+            const newContent = doc.querySelector('.content').innerHTML
+            document.querySelector('.content').innerHTML = newContent
+      
+            const newTitle = doc.querySelector('title').textContent.trim()
+            document.title = newTitle
+      
+            const scripts = doc.querySelectorAll('.content script')
+            scripts.forEach((script) => {
+              const newScript = document.createElement('script')
+              if (script.src) {
+                newScript.src = script.src
+              } else {
+                newScript.textContent = script.textContent
+              }
+              document.querySelector('.content').appendChild(newScript)
+            })
+          })
+          .catch((error) => {
+            console.error('Error loading content:', error)
+            window.location.href = url
+          })
+      }
+      
+      menuToggle.onclick = function () {
+        menuToggle.classList.toggle('active')
+        navigation.classList.toggle('active')
+        content.classList.toggle('active')
+      
+        localStorage.setItem('menuOpen', navigation.classList.contains('active'))
       }
     </script>
   </body>
