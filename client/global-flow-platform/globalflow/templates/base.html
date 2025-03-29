@@ -100,12 +100,14 @@
     <script type="module" src="{% static 'js/ionicons.esm.js' %}"></script>
     <script nomodule src="{% static 'js/ionicons.js' %}"></script>
     <script>
-      let menuToggle = document.querySelector('.toggle')
-      let navigation = document.querySelector('.navigation')
+      let menuToggle = document.querySelector('.toggle');
+      let navigation = document.querySelector('.navigation');
+      let content = document.querySelector('.content');
       
       menuToggle.onclick = function () {
-        menuToggle.classList.toggle('active')
-        navigation.classList.toggle('active')
+        menuToggle.classList.toggle('active');
+        navigation.classList.toggle('active');
+        content.classList.toggle('active');
       }
       
       let list = document.querySelectorAll('.list')
