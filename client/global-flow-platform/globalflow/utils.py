@@ -16,7 +16,7 @@ def get_graph():
 
 def get_plot(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Sales by Item')
     plt.plot(x, y)
     plt.xticks(rotation=45)
@@ -29,7 +29,7 @@ def get_plot(x, y):
 
 def get_pie_chart(labels, sizes):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Sales Distribution')
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
     plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
@@ -40,7 +40,7 @@ def get_pie_chart(labels, sizes):
 
 def get_bar_chart(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Monthly Sales')
     plt.bar(x, y)
     plt.xticks(rotation=45)
@@ -53,7 +53,7 @@ def get_bar_chart(x, y):
 
 def get_scatter_plot(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Price Comparison')
     plt.scatter(x, y)
     plt.xlabel('Product')
@@ -65,7 +65,7 @@ def get_scatter_plot(x, y):
 
 def get_horizontal_bar(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Top Products')
     plt.barh(x, y)
     plt.xlabel('Sales')
@@ -77,7 +77,7 @@ def get_horizontal_bar(x, y):
 
 def get_donut_chart(labels, sizes):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(3, 3))
+    plt.figure(figsize=(6, 3))
     plt.title('Category Breakdown')
     # Create a circle at the center
     circle = plt.Circle((0,0), 0.70, fc='white')

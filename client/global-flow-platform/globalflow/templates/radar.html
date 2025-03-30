@@ -1,10 +1,132 @@
 {% extends 'base.html' %}
-
 {% block title %}
   Radar - Global Flow
 {% endblock %}
-
 {% block content %}
   <h2>Radar</h2>
-  <p>This is the content for the Radar page.</p>
+  <div class="data-grid">
+    <div class="grid-header">
+      <span class="header-name">Name</span>
+      <span class="header-date">Last Update</span>
+      <span class="header-actions">Actions</span>
+    </div>
+    <div class="grid-row">
+      <span class="cell-name">Example Dispatcher One</span>
+      <span class="cell-date">2025-03-29</span>
+      <div class="row-actions">
+        <button class="btn-edit">Edit</button>
+        <button class="btn-delete">Delete</button>
+      </div>
+    </div>
+    <div class="grid-row">
+      <span class="cell-name">Another Dispatcher S.A.</span>
+      <span class="cell-date">2025-03-25</span>
+      <div class="row-actions">
+        <button class="btn-edit">Edit</button>
+        <button class="btn-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    .data-grid {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    .grid-header,
+    .grid-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 8px;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s ease;
+    }
+    
+    .grid-header {
+      background-color: #f8f8f8;
+      font-weight: bold;
+      border-bottom: 2px solid #ddd;
+    }
+    
+    .grid-row:hover {
+      background-color: #f0f5ff;
+    }
+    
+    .header-name,
+    .cell-name {
+      flex: 3;
+      padding-right: 10px;
+    }
+    
+    .header-date,
+    .cell-date {
+      flex: 1;
+      padding-right: 10px;
+      text-align: left;
+    }
+    
+    .header-actions,
+    .row-actions {
+      flex: 1;
+      text-align: right;
+      min-width: 120px;
+    }
+    
+    .header-actions {
+      visibility: hidden;
+    }
+    
+    .row-actions {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s;
+    }
+    
+    .grid-row:hover .row-actions {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    
+    .row-actions button {
+      padding: 5px 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    
+    .row-actions .btn-edit {
+      background-color: #e0e0e0;
+    }
+    .row-actions .btn-edit:hover {
+      background-color: #d0d0d0;
+    }
+    
+    .row-actions .btn-delete {
+      background-color: #ffdddd;
+      border-color: #ffaaaa;
+      color: #d8000c;
+    }
+    .row-actions .btn-delete:hover {
+      background-color: #ffcccc;
+    }
+  </style>
+  <script>
+    {% comment %} document.querySelectorAll('.btn-edit').forEach(button => {
+      button.addEventListener('click', function() {
+        // Add edit logic here
+        console.log('Edit clicked');
+      });
+    });
+
+    document.querySelectorAll('.btn-delete').forEach(button => {
+      button.addEventListener('click', function() {
+        // Add delete logic here
+        console.log('Delete clicked');
+      });
+    }); {% endcomment %}
+  </script>
 {% endblock %}

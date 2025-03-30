@@ -4,55 +4,63 @@
 {% block content %}
   <h2>Dashboard</h2>
   <div class="dashboard-grid">
-
     <div>
       <h3>Sales by Item</h3>
       {% if chart1 %}
         <img src="data:image/png;base64, {{ chart1|safe }}" />
       {% endif %}
     </div>
-
     <div>
       <h3>Sales Distribution</h3>
       {% if chart2 %}
         <img src="data:image/png;base64, {{ chart2|safe }}" />
       {% endif %}
     </div>
-
     <div>
       <h3>Monthly Sales</h3>
       {% if chart3 %}
         <img src="data:image/png;base64, {{ chart3|safe }}" />
       {% endif %}
     </div>
-
     <div>
       <h3>Price Comparison</h3>
       {% if chart4 %}
         <img src="data:image/png;base64, {{ chart4|safe }}" />
       {% endif %}
     </div>
-    
     <div>
-        <h3>Price Comparison</h3>
-        {% if chart5 %}
-          <img src="data:image/png;base64, {{ chart5|safe }}" />
-        {% endif %}
+      <h3>Price Comparison</h3>
+      {% if chart5 %}
+        <img src="data:image/png;base64, {{ chart5|safe }}" />
+      {% endif %}
     </div>
-
     <div>
-        <h3>Price Comparison</h3>
-        {% if chart6 %}
-          <img src="data:image/png;base64, {{ chart6|safe }}" />
-        {% endif %}
+      <h3>Price Comparison</h3>
+      {% if chart6 %}
+        <img src="data:image/png;base64, {{ chart6|safe }}" />
+      {% endif %}
     </div>
-
   </div>
   <style>
     .dashboard-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0px;
-      }
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0px;
+    }
   </style>
+  <script>
+    {% comment %} document.querySelectorAll('.btn-edit').forEach(button => {
+      button.addEventListener('click', function() {
+        // Add edit logic here
+        console.log('Edit clicked');
+      });
+    });
+
+    document.querySelectorAll('.btn-delete').forEach(button => {
+      button.addEventListener('click', function() {
+        // Add delete logic here
+        console.log('Delete clicked');
+      });
+    }); {% endcomment %}
+  </script>
 {% endblock %}

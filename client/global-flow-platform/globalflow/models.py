@@ -31,10 +31,10 @@ class Honorary(Base):
     name = models.CharField(max_length=250)
 
 class MinimumFee(Base):
-    name = models.CharField(max_length=250)
+    name = models.DecimalField(max_digits=6, decimal_places=2)
 
 class SampleFee(Base):
-    name = models.CharField(max_length=250)
+    name = models.DecimalField(max_digits=6, decimal_places=2)
 
 class Dispatcher(Base):
     name = models.CharField(max_length=250)
@@ -43,8 +43,26 @@ class Insurance(Base):
     name = models.CharField(max_length=250)
 
 class Radar(Base):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=250)
 
 # class Business(Base):
 #     business_name = models.CharField(max_length=250)
-#     business_role = 
+#     cnpj = models.CharField(max_length=250)
+#     business_contact = models.CharField(max_length=250)
+#     business_role = models.CharField(max_length=250)
+#     phone = models.CharField(max_length=250)
+#     mobile_phone = models.CharField(max_length=250)
+#     simulation_cost_email = models.CharField(max_length=250)
+#     business_email = models.CharField(max_length=250)
+#     tax_regime = models.CharField(max_length=250)
+#     honorary = models.CharField(max_length=250)
+#     minimum_fee = models.CharField(max_length=250)
+#     sample_fee = models.CharField(max_length=250)
+#     dispatcher = models.CharField(max_length=250)
+#     honorary_value = models.CharField(max_length=250)
+#     sdas = models.CharField(max_length=250)
+#     insurance = models.CharField(max_length=250)
+#     radar = models.CharField(max_length=250)
+#     validity_attorney = models.CharField(max_length=250)
+#     exchange_closing = models.CharField(max_length=250)
+#     exchange_where = models.CharField(max_length=250)
