@@ -22,5 +22,5 @@ from globalflow import urls as gf_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(gf_urls)),
-    path('', include('django.contrib.auth.urls')),
+    path('', include('django.contrib.auth.urls'))
 ]
