@@ -1,14 +1,42 @@
 from django.shortcuts import render
 from globalflow.models import TodoItem, Sale
-from .utils import get_plot
+from .utils import get_plot, get_pie_chart, get_bar_chart, get_scatter_plot
+import random
+import numpy as np
+from datetime import datetime
 
 def index(request):
     qs = Sale.objects.all()
+    
     x = [x.item for x in qs]
     y = [y.price for y in qs]
-    chart = get_plot(x, y)
+    chart1 = get_plot(x, y)
+    
+    labels = x[:5]
+    sizes = y[:5]
+    chart2 = get_pie_chart(labels, sizes)
+    
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    monthly_sales = [random.randint(5000, 20000) for _ in range(6)]
+    chart3 = get_bar_chart(months, monthly_sales)
 
-    return render(request, "index.html", {"chart": chart})
+    products = x[:8]
+    prices = [random.uniform(10, 100) for _ in range(len(products))]
+    chart4 = get_scatter_plot(products, prices)
+
+    chart5 = get_bar_chart(months, monthly_sales)    
+    chart6 = get_scatter_plot(products, prices)
+    
+    context = {
+        "chart1": chart1,
+        "chart2": chart2,
+        "chart3": chart3,
+        "chart4": chart4,
+        "chart5": chart5,
+        "chart6": chart6,
+    }
+    
+    return render(request, "index.html", context)
 
 def business(request):
     context = {}

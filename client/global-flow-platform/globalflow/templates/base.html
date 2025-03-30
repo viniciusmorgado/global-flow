@@ -92,12 +92,10 @@
       <ion-icon name="menu-outline" class="open"></ion-icon>
       <ion-icon name="close-outline" class="close"></ion-icon>
     </div>
-
     <div class="content">
       {% block content %}
       {% endblock %}
     </div>
-
     <script type="module" src="{% static 'js/ionicons.esm.js' %}"></script>
     <script nomodule src="{% static 'js/ionicons.js' %}"></script>
     <script>
@@ -105,10 +103,8 @@
       let navigation = document.querySelector('.navigation')
       let content = document.querySelector('.content')
       let list = document.querySelectorAll('.list')
-      
       document.addEventListener('DOMContentLoaded', function () {
         const isMenuOpen = localStorage.getItem('menuOpen') === 'true'
-      
         if (isMenuOpen) {
           menuToggle.classList.add('active')
           navigation.classList.add('active')
@@ -118,18 +114,14 @@
           navigation.classList.remove('active')
           content.classList.remove('active')
         }
-      
         updateActiveMenuItem()
         setupSpaNavigation()
       })
-      
       function updateActiveMenuItem() {
         const currentPath = window.location.pathname
-      
         list.forEach((item) => {
           item.classList.remove('active')
         })
-      
         let activeItemFound = false
         list.forEach((item) => {
           const link = item.querySelector('a')
@@ -150,32 +142,26 @@
             }
           }
         })
-      
         if (!activeItemFound) {
           list[0].classList.add('active')
         }
       }
-      
       function setupSpaNavigation() {
         document.querySelectorAll('[data-spa-link]').forEach((link) => {
           link.addEventListener('click', function (e) {
             e.preventDefault()
             const href = this.getAttribute('href')
             loadContent(href)
-      
             list.forEach((item) => item.classList.remove('active'))
             this.closest('.list').classList.add('active')
-      
             history.pushState({}, '', href)
           })
         })
-      
         window.addEventListener('popstate', function () {
           loadContent(window.location.pathname)
           updateActiveMenuItem()
         })
       }
-      
       function loadContent(url) {
         fetch(url)
           .then((response) => response.text())
@@ -184,10 +170,8 @@
             const doc = parser.parseFromString(html, 'text/html')
             const newContent = doc.querySelector('.content').innerHTML
             document.querySelector('.content').innerHTML = newContent
-      
             const newTitle = doc.querySelector('title').textContent.trim()
             document.title = newTitle
-      
             const scripts = doc.querySelectorAll('.content script')
             scripts.forEach((script) => {
               const newScript = document.createElement('script')
@@ -204,12 +188,10 @@
             window.location.href = url
           })
       }
-      
       menuToggle.onclick = function () {
         menuToggle.classList.toggle('active')
         navigation.classList.toggle('active')
         content.classList.toggle('active')
-      
         localStorage.setItem('menuOpen', navigation.classList.contains('active'))
       }
     </script>
