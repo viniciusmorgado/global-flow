@@ -114,8 +114,8 @@
       background-color: #ffcccc;
     }
   </style>
-  {% comment %} <script>
-    document.querySelectorAll('.btn-edit').forEach(button => {
+  <script>
+    {% comment %} document.querySelectorAll('.btn-edit').forEach(button => {
       button.addEventListener('click', function() {
         // Add edit logic here
         console.log('Edit clicked');
@@ -127,6 +127,6 @@
         // Add delete logic here
         console.log('Delete clicked');
       });
-    });
-  </script> {% endcomment %}
+    }); {% endcomment %}
+  </script>
 {% endblock %}

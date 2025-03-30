@@ -1,19 +1,106 @@
 {% load static %}
-{% block title %}Login{% endblock %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" /> 
+    <title>Login - Global Flow</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8;
+        }
 
-{% block content %}
-<dev class='login'>
-<form method="post">
-    {% csrf_token %}
-    <div class="container">
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
-    
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-    
-        <button type="submit">Login</button>
-      </div>
-</form>
-</dev>
-{% endblock %}
+        .login-container {
+            background-color: #4d5bf9;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .avatar {
+            font-size: 5em;
+            margin-bottom: 20px;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .login-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+           border-color: #8b95f9;
+           outline: none; 
+        }
+
+        .login-container button[type="submit"] {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #fff;
+            color: #4d5bf9;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button[type="submit"]:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="avatar">
+            <ion-icon name="person-circle-outline"></ion-icon>
+        </div>
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+    <script type="module" src="{% static 'js/ionicons.esm.js' %}"></script>
+    <script nomodule src="{% static 'js/ionicons.js' %}"></script>
+</body>
+</html>
