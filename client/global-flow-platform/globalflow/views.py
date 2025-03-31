@@ -50,11 +50,11 @@ def dispatcher(request):
     if request.method == 'GET':
         query = Dispatcher.objects.all()
 
-    # if request.method == 'POST':
-    #     dispatcher_name = request.POST.get('dispatcher_name', '').strip()
-    #     if dispatcher_name:
-    #         Dispatcher.objects.create(name=dispatcher_name)
-    #         return redirect('globalflow:dispatcher')
+    if request.method == 'POST':
+        dispatcher_name = request.POST.get('dispatcher_name', '').strip()
+        # if dispatcher_name:
+        Dispatcher.objects.create(name=dispatcher_name)
+        return redirect('globalflow:dispatcher')
         
     context = {
         'dispatchers': query 

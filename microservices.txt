@@ -1,0 +1,149 @@
+1. Microserviço: Gestor de Processos de Importação (ImportProcessManager)
+
+    Responsabilidade Principal: Orquestrar o fluxo geral do processo de importação, controlar o estado de cada processo e iniciar ações em outros microserviços.
+    Demandas/Funcionalidades:
+        Abrir um novo processo de importação [1, 4].
+        Manter o status geral do processo (ex: "Iniciado", "Aguardando Documentos", "Em Trânsito", "Desembaraço", "Finalizado").
+        Coordenar a sequência das etapas principais, notificando ou acionando outros serviços quando necessário.
+        Gerenciar lembretes e prazos críticos do processo (pode ser implementado internamente ou via integração com sistema de agenda) [100, 101, 102, 103, 104, 147, 148, 257].
+        Coletar feedback do cliente ao final do processo [280].
+        Enviar notificações gerais sobre o andamento ou status (orquestrando chamadas ao serviço de notificação, se houver um separado, ou diretamente) [2, 95, 96, 153, 233, 235, 236, 256].
+
+2. Microserviço: Gestão de Entidades (PartyManagement)
+
+    Responsabilidade Principal: Gerenciar informações sobre as partes envolvidas (clientes, fornecedores/exportadores, despachantes, transportadoras, etc.).
+    Demandas/Funcionalidades:
+        Validar perfil do cliente:
+            Verificar status do Radar (via consulta externa) [5, 7].
+            Verificar validade de procurações [8, 9].
+            Consultar tipo e limite do Radar [10, 11].
+            Verificar inclusão em apólice de seguro [11 (parte d)].
+        Armazenar e consultar dados cadastrais (CNPJ, razão social, endereço) de importadores, exportadores, fabricantes, despachantes, agentes de carga, transportadoras [6, 48, 49, 50, 51, 69, 72, 109, 201].
+
+3. Microserviço: Instrução de Importação (ImportInstruction)
+
+    Responsabilidade Principal: Gerenciar os detalhes da mercadoria, a Proforma Invoice, e a construção/manutenção da "Planilha de Instrução" (o coração dos dados do processo).
+    Demandas/Funcionalidades:
+        Receber e processar dados da Proforma Invoice [13].
+        Preencher e manter a "Instrução" com detalhes dos itens:
+            Código do item (importador/exportador) [14, 15].
+            Descrição da mercadoria [16, 17, 18, 19].
+            Quantidade, unidade de medida, preço unitário [20, 21, 22, 23, 24, 25].
+            Cálculo e rateio de despesas (frete, bank charges) [26, 27, 28].
+            Peso unitário/total [29, 30].
+            Informar NCM (pode consultar o serviço de Compliance) [31, 32, 33].
+            Informar CFOP [45 (coluna Z)].
+            Cobertura cambial, vínculo entre partes [46, 47].
+            Informações do fabricante [50, 51, 52].
+        Atualizar instrução com dados de Invoice/Packing List [81].
+        Manter e consultar histórico/catálogo de produtos do cliente [18, 19, 32, 33, 37, 38, 43, 44].
+        Gerar dados base para rascunho de NF [198-208, 213-217, 247, 248, 249, 250, 251, 252].
+
+4. Microserviço: Logística e Transporte (Logistics)
+
+    Responsabilidade Principal: Gerenciar cotação, contratação e acompanhamento de frete internacional e nacional, e interações com agentes de carga e transportadoras.
+    Demandas/Funcionalidades:
+        Abrir processo de cotação de frete (EMME Cargo) [55, 56, 57, 58].
+        Realizar cotações de frete (aéreo, marítimo LCL/FCL, rodoviário) [59, 60, 61, 62, 63, 64].
+        Efetivar contratação de serviços logísticos (frete internacional, frete rodoviário, armazenagem) [66, 67, 68, 70, 71, 72, 74].
+        Gerenciar informações de agentes de carga na origem/destino [68 (ii), 75, 76, 77, 78].
+        Receber e processar booking/confirmação de embarque [79, 95].
+        Monitorar embarque e trânsito da carga [96, 97, 98].
+        Solicitar envio de documentos originais (Telex/físico) e rastrear [99].
+        Revisar cotação efetiva vs. contratada [112, 113, 114].
+        Gerenciar redestinação de container FCL [115, 116, 117, 118].
+        Solicitar e processar faturamento de frete internacional [165].
+        Coordenar liberação do conhecimento de transporte (BL/AWB) [169, 170, 171].
+        Coordenar agendamento de carregamento e entrega com transportadora e despachante [231, 232, 233, 234].
+        Confirmar entrega da mercadoria [235].
+        Conferir faturamento de frete rodoviário [258].
+        Analisar e gerenciar demurrage (FCL) [259, 260, 261].
+        Atualizar Planilha Máster com dados logísticos [73, 112].
+
+5. Microserviço: Gestão de Documentos (DocumentManagement)
+
+    Responsabilidade Principal: Centralizar o recebimento, validação (checking lists), armazenamento e versionamento de todos os documentos do processo.
+    Demandas/Funcionalidades:
+        Solicitar, receber e armazenar Proforma Invoice [13].
+        Solicitar, receber, conferir (checking list) e armazenar Invoice e Packing List (finais) [79, 81, 82, 83, 84, 85, 86, 87, 88, 107, 151, 152, 157].
+        Receber, conferir (checking list) e armazenar Draft e Original do Conhecimento de Transporte (AWB/BL/CRT) [89, 90, 91, 92, 93, 94, 106, 107, 108, 110, 111, 116, 126, 127, 130, 138].
+        Realizar double-check interno de documentos (HBL vs Instrução/Packing/Cotação) [105, 106, 107, 108, 109, 110, 111].
+        Receber e armazenar documentos do despacho (Extrato DI, Protocolo DI, XML DI, Comprovantes de pagamento, Rascunho NF) [184, 185, 187, 197].
+        Receber e armazenar Guia e Comprovante de ICMS [224, 225].
+        Receber, conferir e armazenar NF emitida [228, 229, 230].
+        Receber e armazenar comprovantes de pagamento e faturas diversas [238, 239, 265, 266, 268, 269].
+        Organizar e preparar o arquivo digital final do processo [266, 267, 278].
+
+6. Microserviço: Compliance e Desembaraço (CustomsCompliance)
+
+    Responsabilidade Principal: Lidar com requisitos regulatórios, NCM, impostos, LI, NVE, interação com despachante para desembaraço e geração de dados fiscais.
+    Demandas/Funcionalidades:
+        Consultar sistema externo (ex: F5) para determinar alíquotas de II, IPI, PIS, COFINS, ICMS [34, 36].
+        Verificar necessidade de Licença de Importação (LI) e Nomenclatura de Valor Aduaneiro e Estatística (NVE) [39, 40, 42, 43].
+        Comunicar necessidade de LI ao despachante e solicitar deferimento [41, 52, 53, 54].
+        Verificar benefícios fiscais (ACE 14, Ex-tarifário, Redução ICMS) [35, 37].
+        Finalizar instrução para o despacho e enviar ao despachante [104, 105].
+        Solicitar presença de carga ao despachante [153 (última linha)].
+        Solicitar e conferir rascunho da Declaração de Importação (DI) [164, 172, 176, 177, 178, 179, 180, 181, 182, 183].
+        Solicitar registro da DI ao despachante [181].
+        Receber confirmação e documentos da DI registrada [184, 185].
+        Monitorar status do desembaraço e canal de parametrização (verde, amarelo, vermelho, cinza) [188, 189, 190, 191, 192, 193, 194].
+        Gerenciar processo em caso de canal amarelo/vermelho/cinza (revisar documentos, informar cliente) [194, 195, 196, 197].
+        Gerar dados para rascunho de Nota Fiscal (NF) [197-223].
+        Gerar Guia de ICMS (via integração com SEFAZ/GNRE) [224].
+        Verificar liberação do ICMS [225].
+        Enviar rascunho de NF para emissão [226].
+        Emitir NF (se aplicável pela EMME) [227].
+        Conferir NF emitida e solicitar correções/cancelamento se necessário [228, 229].
+        Calcular valor do AFRMM [218].
+
+7. Microserviço: Financeiro e Custos (FinancialCosting)
+
+    Responsabilidade Principal: Gerenciar todos os aspectos financeiros, pagamentos, recebimentos (numerário), custos, seguros e faturamento.
+    Demandas/Funcionalidades:
+        Registrar e validar honorários específicos (EMME, despachante) [12].
+        Registrar e calcular profit da EMME Cargo [68 (i), 71, 73].
+        Gerenciar e averbar seguro de transporte [11 (d), 102, 119-148, 154-161, 175].
+            Calcular prêmio, gerar/enviar boleto, controlar pagamento.
+            Notificar seguradora sobre avarias [154, 155, 156, 157, 158, 159, 160, 161].
+        Gerar e enviar previsão de numerário ao cliente [101, 149, 150].
+        Confirmar recebimento de numerário [162, 163].
+        Solicitar e processar pagamentos (liberação BL/AWB, frete, taxas, armazenagem, despachante, impostos) [166, 167, 168, 171, 186, 212, 224, 225, 228, 242, 244, 258, 262, 264, 274].
+        Conferir faturas (agente de carga, armazenagem, despachante) [166, 167, 228, 262, 263, 264].
+        Realizar fechamento de custos (prévio e efetivo) [237-255, 268-277].
+            Preencher planilhas de custos com valores efetivos e taxas de câmbio.
+            Comparar previsto vs. realizado.
+            Gerar relatórios de custos (PDF).
+        Enviar tela de débitos (impostos) para financeiro/cliente [186 (implícito), 33 (página 11)].
+
+
+        Em vez de chamadas diretas de API (como REST), os microserviços vão trocar mensagens usando os padrões do ZMQ (como Publish/Subscribe, Push/Pull, Request/Reply).
+
+A divisão dos microserviços permanece a mesma:
+
+    Gestor de Processos de Importação (ImportProcessManager)
+        Comunicação ZMQ: Irá publicar eventos sobre o estado geral do processo (ex: process.started, process.completed) e enviar comandos (ex: start.quoting, request.di.draft) para outros serviços via sockets PUSH. Também irá subscrever eventos de outros serviços (ex: logistics.shipment.booked, customs.di.registered) para atualizar o status do processo.
+
+    Gestão de Entidades (PartyManagement)
+        Comunicação ZMQ: Principalmente responderá a requisições (REQ/REP) de outros serviços para fornecer dados de clientes/fornecedores (ex: get.client.radar.status, get.supplier.address). Pode publicar eventos se houver mudanças relevantes (ex: client.powerofattorney.updated).
+
+    Instrução de Importação (ImportInstruction)
+        Comunicação ZMQ: Receberá comandos (PUSH/PULL) para criar/atualizar instruções (ex: update.instruction.from.proforma, add.ncm.details). Responderá a requisições (REQ/REP) por dados da instrução (ex: get.item.details, get.total.weight). Pode publicar eventos quando a instrução for significativamente alterada (ex: instruction.ready.for.customs).
+
+    Logística e Transporte (Logistics)
+        Comunicação ZMQ: Receberá comandos (PUSH/PULL) como start.freight.quoting, book.shipment, track.shipment. Publicará eventos importantes como freight.quoted, shipment.booked, shipment.arrived, demurrage.calculated.
+
+    Gestão de Documentos (DocumentManagement)
+        Comunicação ZMQ: Receberá comandos (PUSH/PULL) para store.document, validate.invoice. Publicará eventos como invoice.validated, bl.received, final.documents.ready. Responderá a requisições (REQ/REP) por documentos específicos.
+
+    Compliance e Desembaraço (CustomsCompliance)
+        Comunicação ZMQ: Receberá comandos (PUSH/PULL) como check.li.requirement, request.di.draft.review, generate.icms.guide. Publicará eventos cruciais como li.required, di.registered, customs.cleared, parameterization.channel.defined (yellow/red/grey), nf.data.ready. Responderá a requisições (REQ/REP) por informações de NCM/taxas.
+
+    Financeiro e Custos (FinancialCosting)
+        Comunicação ZMQ: Receberá comandos (PUSH/PULL) como process.payment.request, generate.cost.report, confirm.numerario.receipt, averbate.insurance. Publicará eventos como payment.completed, cost.report.generated, insurance.billed. Responderá a requisições (REQ/REP) por status financeiros ou custos.
+
+Em Resumo:
+
+    A lógica de negócio dentro de cada microserviço permanece a mesma.
+    A comunicação se torna baseada em mensagens assíncronas via ZMQ.
+    Você precisará definir os padrões ZMQ (PUB/SUB, PUSH/PULL, REQ/REP) adequados para cada tipo de interação entre os serviços e os formatos das mensagens trocadas.
