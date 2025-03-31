@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from globalflow.models import TodoItem, Sale
+from django.shortcuts import render, redirect
+from globalflow.models import TodoItem, Sale, Dispatcher
 from .utils import get_plot, get_pie_chart, get_bar_chart, get_scatter_plot
 import random
 import numpy as np
@@ -47,7 +47,19 @@ def exchange_process(request):
     return render(request, 'exchange_process.html', context)
 
 def dispatcher(request):
-    context = {}
+    if request.method == 'GET':
+        query = Dispatcher.objects.all()
+
+    # if request.method == 'POST':
+    #     dispatcher_name = request.POST.get('dispatcher_name', '').strip()
+    #     if dispatcher_name:
+    #         Dispatcher.objects.create(name=dispatcher_name)
+    #         return redirect('globalflow:dispatcher')
+        
+    context = {
+        'dispatchers': query 
+    }
+
     return render(request, 'dispatcher.html', context)
 
 def role(request):

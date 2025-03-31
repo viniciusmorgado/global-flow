@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TodoItem, Sale, BusinessRole, TaxRegime, Honorary, MinimumFee, SampleFee, Dispatcher, Insurance, Radar
+from .models import TodoItem, Sale, BusinessRole, TaxRegime, Honorary, MinimumFee, SampleFee, Dispatcher, Insurance, Radar, Business
 
 # Register your models here.
 admin.site.register(TodoItem)
@@ -12,3 +12,4 @@ admin.site.register(SampleFee)
 admin.site.register(Dispatcher)
 admin.site.register(Insurance)
 admin.site.register(Radar)
+admin.site.register(Business)
